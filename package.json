@@ -1,0 +1,29 @@
+{
+  "name": "smallworld-ludumdare38-2017",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/berithpy/ludumdare38.git"
+  },
+  "dependencies": {
+    "phaser-ce": "2.7.x"
+  },
+  "keywords": [
+    "small world",
+    "ludum",
+    "dare",
+    "38",
+    "2017"
+  ],
+  "author": "DAM LTDA",
+  "license": "GPL 3.0",
+  "bugs": {
+    "url": "https://github.com/berithpy/ludumdare38/issues"
+  },
+  "homepage": "https://github.com/berithpy/ludumdare38#readme"
+}

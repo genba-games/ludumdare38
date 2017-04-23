@@ -6,11 +6,16 @@ playState.prototype =
         // Setup functions
         preload: function () {
             // Function called first to load all the assets
+            game.load.image('player', 'src/graphics/player.png');
         },
         create: function () {
-            game.add.tileSprite(0, 0, 800, 480, 'background')
-            game.physics.startSystem(Phaser.Physics.ARCADE);
+            // game.add.tileSprite(0, 0, 800, 480, 'background')
+            game.physics.startSystem(Phaser.Physics.P2JS);
 
+            game.physics.p2.gravity.y = 350;
+            game.physics.p2.world.defaultContactMaterial.friction = 0.3;
+            game.physics.p2.world.setGlobalStiffness(1e5);
+            
             //  Music
             music = game.add.audio('main_audio');
             music.loop = true;
@@ -21,7 +26,12 @@ playState.prototype =
 
             // Group definitions
             players = game.add.group();
-            powerup = game.add.group()
+            powerup = game.add.group();
+
+            playerSprite = game.add.sprite(32,32,'player');
+            player = PlayerFactory(players,50,50,playerSprite,Controller());
+
+            game.physics.p2.enable(player);
         },
         bulletCollitionCallback: function (player, bullet) {
             callback = function () {

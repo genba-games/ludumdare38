@@ -66,7 +66,8 @@ function Controller(player, keymap) {
     // Initialize ComboChecker
     this.comboChecker = ComboChecker(this);
 
-    this.keyPressed = function(key) {
-        return keyPressed(this.keymap, key);
+    this._keyPressed = keyPressed
+    this.keyPressed = function(key){
+        return this._keyPressed(this.keymap, key);
     }
 };

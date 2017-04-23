@@ -37,7 +37,7 @@ function ComboChecker(controller) {
     // Combo callbacks
     this.function1 = function() {
         console.log('Combo 1 activated');
-        this.player.tint = 0xFF0000;
+        this.player.tint = 0x0000FF;
     }.bind(this);
 
     this.function2 = function() {
@@ -47,7 +47,7 @@ function ComboChecker(controller) {
 
     this.function3 = function() {
         console.log('Combo 3 activated');
-        this.player.tint = 0x0000FF;
+        this.player.tint = 0xFF0000;
     }.bind(this);
 
     //  Setup the combos
@@ -56,7 +56,7 @@ function ComboChecker(controller) {
     combos.push(
         new Combo([ck.LEFT, ck.LEFT, ck.RIGHT, ck.RIGHT, ck.ACTION], function1),
         new Combo([ck.LEFT, ck.RIGHT, ck.LEFT, ck.RIGHT, ck.ACTION], function2),
-        new Combo([ck.LEFT, ck.ACTION, ck.RIGHT, ck.ACTION, ck.ACTION], function3)
+        new Combo([ck.LEFT, ck.UP, ck.RIGHT, ck.ACTION], function3)
     );
 
     // Setup combo reset timer

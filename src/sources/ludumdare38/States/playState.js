@@ -8,12 +8,23 @@ playState.prototype =
         // Setup functions
         preload: function () {
             // Function called first to load all the assets
+            game.load.tilemap('level 1', 'src/tilemaps/newnew.json', null, Phaser.Tilemap.TILED_JSON);
+            
             game.load.image('player', 'src/graphics/player.png');
             game.load.image('box', 'src/graphics/tile.png')
         },
         create: function () {
-            // game.add.tileSprite(0, 0, 800, 480, 'background')
             game.physics.startSystem(Phaser.Physics.P2JS);
+            map = game.add.tilemap('level 1');
+
+            map.addTilesetImage('tile', 'box');
+
+            layer = map.createLayer('Tile Layer 1');
+            layer.resizeWorld();
+            
+            // game.add.tileSprite(0, 0, 800, 480, 'background')
+            map.setCollisionBetween(1,12);
+            game.physics.p2.convertTilemap(map, layer);
 
 
             game.physics.p2.gravity.y = globalGravity;

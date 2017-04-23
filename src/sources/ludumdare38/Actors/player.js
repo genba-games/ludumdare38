@@ -25,7 +25,20 @@ PlayerFactory = function (group, x, y, sprite, controllerKeymap) {
 	player.cooldown = false;
 	player.invulnerable = false;
 	player.health = 2500;
+	player.facing = 'idle'
+	
+	// animations
+	idle = player.animations.add('idle')
+	player.animations.add('idle',[0,3,5,6,7],2,true)
 
+	left= player.animations.add('left');
+    player.animations.add('left',[1],1,true)
+
+	right= player.animations.add('right');
+    player.animations.add('right',[2] ,1,true)
+
+	action= player.animations.add('action');
+    player.animations.add('action',[3,4,0],2,false)
 
 	player.jumpTimer = 0
 	
@@ -41,34 +54,39 @@ PlayerFactory = function (group, x, y, sprite, controllerKeymap) {
 		if (this.controller.keyPressed(controllerKeys.LEFT)) {
 			this.body.velocity.x = this.speedBase * this.speedFactor * -1;
 
-			// if (facing != 'left') {
-			// 	this.animations.play('left');
-			// 	facing = 'left';
-			// }
+			if (this.facing != 'left') {
+				this.animations.play('left');
+				this.facing = 'left';
+			}
 		}
 		else if (this.controller.keyPressed(controllerKeys.RIGHT)) {
 			this.body.velocity.x = this.speedBase * this.speedFactor;
 
-			// if (facing != 'right') {
-			// 	player.animations.play('right');
-			// 	facing = 'right';
-			// }
+			if (this.facing != 'right') {
+				player.animations.play('right');
+				this.facing = 'right';
+			}
 		}
 		else {
 			this.body.velocity.x = 0;
 
-			// if (facing != 'idle') {
-			// 	player.animations.stop();
+			if (this.facing != 'idle') {
+				player.animations.stop();
 
-			// 	if (facing == 'left') {
-			// 		player.frame = 0;
-			// 	}
-			// 	else {
-			// 		player.frame = 5;
-			// 	}
+				if (this.facing == 'left') {
+					player.frame = 0;
+				}
+				else {
+					player.frame = 5;
+				}
 
-			// 	facing = 'idle';
-			// }
+				this.facing = 'idle';
+				player.animations.play('idle')
+			}
+		}
+
+		if(this.controller.keyPressed(controllerKeys.ACTION)){
+			player.animations.play('action');
 		}
 
 		if (this.controller.keyPressed(controllerKeys.JUMP) && this.body.onFloor()) {

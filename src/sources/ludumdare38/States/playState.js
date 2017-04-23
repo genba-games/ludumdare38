@@ -10,12 +10,11 @@ playState.prototype =
             // Function called first to load all the assets
             game.load.tilemap('level 1', 'src/tilemaps/newnew.json', null, Phaser.Tilemap.TILED_JSON);
             
-            //game.load.image('player', 'src/graphics/player.png');
             game.load.image('box', 'src/graphics/tile.png')
             game.load.image('tile-sheet', 'src/graphics/tile-sheet.png')
 
             game.load.spritesheet('enemy','src/graphics/enemy-sheet.png',32,32,7)
-            game.load.spritesheet('player','src/graphics/player-sheet.png',32,32,7)
+            game.load.spritesheet('player','src/graphics/player-sheet.png',32,32,8)
         },
         create: function () {
             game.physics.startSystem(Phaser.Physics.ARCADE);

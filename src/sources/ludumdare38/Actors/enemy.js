@@ -16,20 +16,6 @@ EnemyFactory = function (group, x, y, sprite) {
         }else if(this.body.velocity.x == 0){
             this.speed = this.speed *-1
             this.body.velocity.x = this.speed * this.speedFactor
-            this.movingTime = 0
         }
-        // if(this.body.isMoving && this.movingTime>game.time.now){
-        //     this.body.velocity.x = this.speed * this.speedFactor
-        
-        // }else if(!this.body.isMoving && this.movingTime<game.time.now){
-        //     this.speed = this.speed *-1
-        //     this.body.velocity.x = this.speed * this.speedFactor
-        //     this.movingTime = 0
-        // }else{
-        //     this.body.velocity.x = this.speed * this.speedFactor
-        //     this.movingTime = game.time.now + 200
-        // }
-        
-
     }
 }

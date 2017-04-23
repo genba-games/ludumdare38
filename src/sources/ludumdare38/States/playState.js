@@ -7,7 +7,7 @@ playState.prototype =
         preload: function () {
             // Function called first to load all the assets
             game.load.image('player', 'src/graphics/player.png');
-            game.load.image('box', 'src/graphics/box.png')
+            game.load.image('tile', 'src/graphics/tile.png')
         },
         create: function () {
             // game.add.tileSprite(0, 0, 800, 480, 'background')

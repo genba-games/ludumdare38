@@ -3,40 +3,46 @@ controllerKeys = {
     DOWN: 'down',
     LEFT: 'left',
     RIGHT: 'right',
-    SHOOT: 'shoot',
+    ACTION: 'action',
+    JUMP: 'jump'
+}
+
+function keyPressed(controller, key) {
+    key = controller.keys[key];
+    if (key === true) return true;
+    if (key === false) return false;
+    for (i in key)
+        if (game.input.keyboard.isDown(key[i]))
+            return true;
+    return false;
 }
 
 function Controller() {
     return {
         'keys': {
-            'up':
-            [
+            [controllerKeys.UP]: [
                 Phaser.Keyboard.W,
                 Phaser.Keyboard.UP
             ],
-            'down':
-            [
+            [controllerKeys.DOWN]: [
                 Phaser.Keyboard.S,
                 Phaser.Keyboard.DOWN
             ],
-            'left':
-            [
+            [controllerKeys.LEFT]: [
                 Phaser.Keyboard.A,
                 Phaser.Keyboard.LEFT
             ],
-            'right':
-            [
+            [controllerKeys.RIGHT]: [
                 Phaser.Keyboard.D,
                 Phaser.Keyboard.RIGHT
             ],
-            'action': [
+            [controllerKeys.ACTION]: [
                 Phaser.Keyboard.X
             ],
-            'jump': [
+            [controllerKeys.JUMP]: [
                 Phaser.Keyboard.SPACEBAR,
                 Phaser.Keyboard.Z
             ]
-        },
-        'pointer': game.input.activePointer,
+        }
     };
 };

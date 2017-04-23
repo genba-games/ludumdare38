@@ -1,0 +1,44 @@
+{
+    "beautify.language": {
+        "js": {
+            "type": ["javascript", "json"],
+            "filename": [".jshintrc", ".jsbeautify"],
+            "ext": ["js", "json"]
+        },  
+        "css": ["css", "scss"],
+        "html": ["htm", "html"]
+    },
+
+
+    "js": {
+        "indent_size": 4,
+        "indent_char": " ",
+        "indent_level": 0,
+        "indent_with_tabs": false,
+        "preserve_newlines": true,
+        "max_preserve_newlines": 2,
+        "jslint_happy": false,
+        "brace_style": "end-expand,preserve-inline"
+    },
+    "html": {
+        "brace_style": "expand",
+        "indent_char": " ",
+        "indent_scripts": "normal",
+        "indent_size": 2,
+        "max_preserve_newlines": 1,
+        "preserve_newlines": false,
+        "unformatted": ["a", "sub", "sup", "b", "i", "u"],
+        "wrap_line_length": 0,
+        "end_with_newline": true
+    },
+    "css": {
+        "indent_char": " ",
+        "indent_size": 4
+    },
+    "sql": {
+        "indent_size": 4,
+        "indent_char": " ",
+        "indent_level": 0,
+        "indent_with_tabs": false
+    }
+}

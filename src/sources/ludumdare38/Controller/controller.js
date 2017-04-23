@@ -36,7 +36,7 @@ defaultKeymap = {
 /**
  * Indicates whether a key assigned to a specific controller key is being 
  * pressed. 
- * Controller keys correspond to the entries of ``controllersKeys`` object.
+ * Controller keys correspond to the keys of ``controllersKeys`` object.
  * 
  * @param {Object} keymap Object containing the appropriate 
  * ``controllerKey``:[``Phaser.Keyboard``] configuration pairs.
@@ -54,7 +54,7 @@ function keyPressed(keymap, key) {
 }
 
 /**
- * Controls an assigned player
+ * Controls an assigned player.
  * 
  * @param {Player} player Player instance to assign to controller.
  * @param {Object} keymap Object containing the appropriate 

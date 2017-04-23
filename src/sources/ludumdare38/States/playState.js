@@ -7,7 +7,7 @@ playState.prototype =
         preload: function () {
             // Function called first to load all the assets
             game.load.image('player', 'src/graphics/player.png');
-            game.load.image('box', 'src/graphics/box.png')
+            game.load.image('box', 'src/graphics/tile.png')
         },
         create: function () {
             // game.add.tileSprite(0, 0, 800, 480, 'background')
@@ -71,19 +71,7 @@ playState.prototype =
             };
         },
         update: function () {
-            // Collision
-            game.physics.arcade.collide(players, players);
-
-            // Checks for collision of every player agains every bullet.
-            for (var i in players.children) {
-                game.physics.arcade.collide(players, players.children[i].weapon.bullets, this.bulletCollitionCallback);
-                for (var j in players.children) {
-                    game.physics.arcade.collide(players.children[i].weapon.bullets, players.children[j].weapon.bullets);
-
-                }
-            }
-            // Checks for collision of players with the powerups
-            game.physics.arcade.overlap(players, powerup, this.powerUpCallback);
+            
         },
 
         // Helper Functions

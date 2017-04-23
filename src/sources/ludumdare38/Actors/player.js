@@ -13,7 +13,7 @@ PlayerFactory = function (group, x, y, sprite, controls) {
 		return Math.random() * (max - min) + min
 	};
 	// player.tint = randomColor(0xAAAAAA << 0, 0xFFFFFF << 0);
-
+	player.jumping = false
 	player.controls = controls;
 	player.cooldown = false;
 	player.invulnerable = false;
@@ -35,7 +35,7 @@ PlayerFactory = function (group, x, y, sprite, controls) {
 			// }
 		}
 		else if (keyPressed(this.controls, controllerKeys.RIGHT)) {
-			player.body.moveRight(200);
+			this.body.moveRight(200);
 
 			// if (facing != 'right') {
 			// 	player.animations.play('right');
@@ -43,7 +43,7 @@ PlayerFactory = function (group, x, y, sprite, controls) {
 			// }
 		}
 		else {
-			player.body.velocity.x = 0;
+			this.body.velocity.x = 0;
 
 			// if (facing != 'idle') {
 			// 	player.animations.stop();
@@ -59,11 +59,23 @@ PlayerFactory = function (group, x, y, sprite, controls) {
 			// }
 		}
 
-		if (keyPressed(this.controls,controllerKeys.JUMP) && game.time.now > this.jumpTimer && checkIfCanJump()) {
-			player.body.moveUp(300);
-			jumpTimer = game.time.now + 750;
-		}
-
+		if (keyPressed(this.controls, controllerKeys.JUMP) && checkIfCanJump()) {
+			this.body.moveUp(300);
+			this.jumpTimer = game.time.time + 220;
+			console.log("JUMPING",this.jumpTimer,game.time.time)
+		} else if (keyPressed(this.controls, controllerKeys.JUMP) && this.jumptimer != 0) { 
+			//player is no longer on the ground, but is still holding the jump key
+			if (this.jumpTimer < game.time.time) { 
+				// player has been holding jump for over 600 millliseconds, it's time to stop him
+				this.jumpTimer = 0;
+			} else { 
+				// player is allowed to jump higher, not yet 600 milliseconds of jumping
+				this.body.moveUp(300);
+				console.log("'JUMPING HIGHER'");
+			};
+		} else if (this.jumpTimer != 0) { //reset jumptimer since the player is no longer holding the jump key
+			this.jumpTimer = 0;
+		};
 		if (this.alive) {
 			if (this.controls == undefined) return;
 			if (keyPressed(this.controls, controllerKeys.SHOOT)) {

@@ -29,17 +29,17 @@ PlayerFactory = function (group, x, y, sprite, controllerKeymap) {
 
 	player.jumpTimer = 0
 	
-	player.jumpPower = 1
+	player.jumpFactor = 1
 	player.jumpBase = -260
 	
-	player.speedPower = 1
+	player.speedFactor = 1
 	player.speedBase = 300
 
 
 	player.update = function () {
 		/// Input
 		if (this.controller.keyPressed(controllerKeys.LEFT)) {
-			this.body.velocity.x = this.speedBase * this.speedPower * -1;
+			this.body.velocity.x = this.speedBase * this.speedFactor * -1;
 
 			// if (facing != 'left') {
 			// 	this.animations.play('left');
@@ -47,7 +47,7 @@ PlayerFactory = function (group, x, y, sprite, controllerKeymap) {
 			// }
 		}
 		else if (this.controller.keyPressed(controllerKeys.RIGHT)) {
-			this.body.velocity.x = this.speedBase * this.speedPower;
+			this.body.velocity.x = this.speedBase * this.speedFactor;
 
 			// if (facing != 'right') {
 			// 	player.animations.play('right');
@@ -72,7 +72,7 @@ PlayerFactory = function (group, x, y, sprite, controllerKeymap) {
 		}
 
 		if (this.controller.keyPressed(controllerKeys.JUMP) && this.body.onFloor()) {
-			this.body.velocity.y = this.jumpBase * this.jumpPower;
+			this.body.velocity.y = this.jumpBase * this.jumpFactor;
 			this.jumpTimer = game.time.time + 220;
 		}
 		// Player is no longer on the ground, but is still holding the jump key
@@ -83,7 +83,7 @@ PlayerFactory = function (group, x, y, sprite, controllerKeymap) {
 			}
 			// Player is allowed to jump higher, not yet in the time limit
 			else {
-				this.body.velocity.y = this.jumpBase * this.jumpPower;
+				this.body.velocity.y = this.jumpBase * this.jumpFactor;
 			};
 		}
 		// Reset jump timer since the player is no longer holding the jump key

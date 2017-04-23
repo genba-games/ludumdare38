@@ -10,14 +10,20 @@ playState.prototype =
             // Function called first to load all the assets
             game.load.tilemap('level 1', 'src/tilemaps/newnew.json', null, Phaser.Tilemap.TILED_JSON);
             
-            game.load.image('player', 'src/graphics/player.png');
+            //game.load.image('player', 'src/graphics/player.png');
             game.load.image('box', 'src/graphics/tile.png')
+            game.load.image('tile-sheet', 'src/graphics/tile-sheet.png')
+
+            game.load.spritesheet('enemy','src/graphics/enemy-sheet.png',32,32,7)
+            game.load.spritesheet('player','src/graphics/player-sheet.png',32,32,7)
         },
         create: function () {
             game.physics.startSystem(Phaser.Physics.ARCADE);
             map = game.add.tilemap('level 1');
 
-            map.addTilesetImage('tile', 'box');
+            // tile is the tileset name on the json and box is the equivalent preloaded image.
+            map.addTilesetImage('tile','box')
+            map.addTilesetImage('snow', 'tile-sheet');
 
             layer = map.createLayer('Tile Layer 1');
             layer.resizeWorld();
@@ -38,9 +44,10 @@ playState.prototype =
 
             // Group definitions
             players = game.add.group();
-            powerup = game.add.group();
+            enemies = game.add.group();
 
             player = PlayerFactory(players, 50, 50, 'player');
+            enemy = EnemyFactory(enemies,500,50,'enemy')
 
             
 
@@ -62,6 +69,9 @@ playState.prototype =
         },
         update: function () {
             game.physics.arcade.collide(players,layer)
+            game.physics.arcade.collide(enemies,layer)
+            game.physics.arcade.collide(players,enemies)
+            
         },
     };
 

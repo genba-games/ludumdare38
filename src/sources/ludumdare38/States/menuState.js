@@ -10,12 +10,16 @@ menuState.prototype =
         create: function () {
             // game.add.plugin(PhaserInput.Plugin);
             titleBackground = game.add.sprite(0, 0, 'title_background');
-            backgroundTween = game.add.tween(titleBackground);
-            backgroundTween.to({x:-600,y:-380}, 10000,'Linear',true,0);
+            backgroundTween = game.add.tween(titleBackground).to({x:-450,y:-280}, 10000,'Linear',false,0);
+            backgroundTween.to({x:0,y:0}, 10000,'Linear',false,0);
+            backgroundTween.loop(true);
+            backgroundTween.start();
 
             wholeScreen = game.add.sprite(0, 0, 'whole_screen');
             wholeScreen.inputEnabled = true;
             wholeScreen.events.onInputDown.add(this.start_game, this);
+
+            
         },
         start_game: function () {
             game.state.start('play');

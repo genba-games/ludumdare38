@@ -19,17 +19,6 @@ PlayerFactory = function (group, x, y, sprite, controls) {
 	player.invulnerable = false;
 	player.health = 2500;
 
-	// Physics
-	game.physics.arcade.enable([player]);
-	player.body.bounce.set(0.8);
-	player.body.maxVelocity = 300;
-	player.body.drag.x = 1000;
-	player.body.drag.y = 1000;
-	
-	player.acceleration = 1200;
-
-	player.powerUpSpeed = 1;
-
 	//weapon
 	// player.weapon = WaveFactory(player, player.waveSprite);
 	player.update = function () {

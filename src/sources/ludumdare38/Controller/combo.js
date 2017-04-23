@@ -3,12 +3,29 @@ var Combo = function(keys, callback) {
     this.numComboKeys = keys.length;
     this.callback = callback;
     this.progress = 0;
+    this.mirrored_progress = 0;
 
     this.reset = function() {
         this.progress = 0;
+        this.mirrored_progress = 0;
     };
 
+    this.mirrorKey = function(key) {
+        switch (key) {
+            case controllerKeys.LEFT:
+                return controllerKeys.RIGHT;
+                break;
+            case controllerKeys.RIGHT:
+                return controllerKeys.LEFT;
+                break;
+            default:
+                return key;
+                break;
+        }
+    }
+
     this.receiveKey = function(key) {
+        // Regular combo
         if (key == this.keys[this.progress]) {
             this.progress += 1;
             if (this.progress == this.numComboKeys) {
@@ -18,12 +35,24 @@ var Combo = function(keys, callback) {
                 this.reset();
             }
         }
-        else this.reset();
+        else this.progress = 0;
+        // Mirrored combo
+        if (key == this.mirrorKey(this.keys[this.mirrored_progress])) {
+            this.mirrored_progress += 1;
+            if (this.mirrored_progress == this.numComboKeys) {
+                //  Code acknowledged! Do the magic!
+                this.callback();
+                // Reset the combo
+                this.reset();
+            }
+        }
+        else this.mirrored_progress = 0;
     };
 }
 
 /**
- * Looks out for combos
+ * Looks out for combos in controller
+ * .
  * @param {Object} controller Player controller.
  */
 function ComboChecker(controller) {
@@ -36,17 +65,14 @@ function ComboChecker(controller) {
 
     // Combo callbacks
     this.function1 = function() {
-        console.log('Combo 1 activated');
         this.player.tint = 0x0000FF;
     }.bind(this);
 
     this.function2 = function() {
-        console.log('Combo 2 activated');
         this.player.tint = 0x00FF00;
     }.bind(this);
 
     this.function3 = function() {
-        console.log('Combo 3 activated');
         this.player.tint = 0xFF0000;
     }.bind(this);
 
@@ -68,7 +94,6 @@ function ComboChecker(controller) {
 
     // Bind to the provided controller
     this.receiveKey = function(key, controllerKey) {
-        console.log('COMBO\tKey recieved:', controllerKey)
         // Reset the reset timer
         game.time.events.remove(this.keyTimer);
         this.keyTimer = game.time.events.loop(keyResetTimer, resetCombos, this);
@@ -82,6 +107,6 @@ function ComboChecker(controller) {
             keyCode = keyCodes[keyCode];
             var key = game.input.keyboard.addKey(keyCode);
             key.onDown.add(this.receiveKey, this, 0, controllerKey)
-        } 
+        }
     }
 }

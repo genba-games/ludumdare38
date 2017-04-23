@@ -1,77 +1,87 @@
 var Combo = function(keys, callback) {
-    const keys = keys;
-    const numComboKeys = keys.length;
-    const callback = callback;
-    var progress = 0;
+    this.keys = keys;
+    this.numComboKeys = keys.length;
+    this.callback = callback;
+    this.progress = 0;
 
-    const receiveKey = function(key) {
-        if (key == keys[progress]) {
-            progress += 1;
-            if (progress == numComboKeys) {
+    this.reset = function() {
+        this.progress = 0;
+    };
+
+    this.receiveKey = function(key) {
+        if (key == this.keys[this.progress]) {
+            this.progress += 1;
+            if (this.progress == this.numComboKeys) {
                 //  Code acknowledged! Do the magic!
-                callback();
+                this.callback();
+                // Reset the combo
+                this.reset();
             }
         }
-        else progress = 0;
-    }
-
-    const reset = function() {
-        progress = 0;
-    }
+        else this.reset();
+    };
 }
 
 /**
  * Looks out for combos
- * @param {Player} player Player assigned to this controller.
  * @param {Object} controller Player controller.
  */
-var ComboChecker = function(player, controller) {
+function ComboChecker(controller) {
+    // Controller reference
+    this.controller = controller;
     // Player reference
-    const player = player;
-
-    //  Define the combos
-    const combos = [];
-    combos.push(Combo([LEFT, LEFT, RIGHT, RIGHT, SHOOT], RainbowBarf));
-    combos.push(Combo([LEFT, RIGHT, LEFT, RIGHT, SHOOT], function2));
-    combos.push(Combo([LEFT, SHOOT, RIGHT, SHOOT, SHOOT], function3));
-
+    this.player = this.controller.player;
     // Time limit (in ms) between keypresses before resetting combos
-    const keyResetTimer = 300;
-    const resetCombos = function() {
-        console.log('Resetting combos.');
+    this.keyResetTimer = 300;
+
+    // Combo callbacks
+    this.function1 = function() {
+        console.log('Combo 1 activated');
+        this.player.tint = 0xFF0000;
+    }.bind(this);
+
+    this.function2 = function() {
+        console.log('Combo 2 activated');
+        this.player.tint = 0x00FF00;
+    }.bind(this);
+
+    this.function3 = function() {
+        console.log('Combo 3 activated');
+        this.player.tint = 0x0000FF;
+    }.bind(this);
+
+    //  Setup the combos
+    this.combos = [];
+    var ck = controllerKeys;
+    combos.push(
+        new Combo([ck.LEFT, ck.LEFT, ck.RIGHT, ck.RIGHT, ck.ACTION], function1),
+        new Combo([ck.LEFT, ck.RIGHT, ck.LEFT, ck.RIGHT, ck.ACTION], function2),
+        new Combo([ck.LEFT, ck.ACTION, ck.RIGHT, ck.ACTION, ck.ACTION], function3)
+    );
+
+    // Setup combo reset timer
+    this.resetCombos = function() {
         for (var i = 0; i < combos.length; i++)
             combos[i].reset();
-    }
-    // Loop resetting timers
-    var keyTimer = game.time.events.loop(keyResetTimer, resetCombos, this).start();
+    };
+    this.keyTimer = game.time.events.loop(keyResetTimer, resetCombos, this);
 
-    // Bind this ComboChecker to the provided controller
-    const receiveKey = function(key) {
+    // Bind to the provided controller
+    this.receiveKey = function(key, controllerKey) {
+        console.log('COMBO\tKey recieved:', controllerKey)
         // Reset the reset timer
-        keyTimer.delay = keyResetTimer;
+        game.time.events.remove(this.keyTimer);
+        this.keyTimer = game.time.events.loop(keyResetTimer, resetCombos, this);
         // Register keys
-        for (var i = 0; i < Combos.length; i++)
-            combos[i].receiveKey(key);
+        for (var i = 0; i < this.combos.length; i++)
+            this.combos[i].receiveKey(controllerKey);
     }
-    for (key in controller.keys){
-        keyCode = controller.keys[key];
-        const key = game.input.keyboard.addKey(Phaser.keyboard.keyCode);
-        key.onDown.add(receiveKey, this, 0, key)
-    }
-    
-
-    const function1 = function() {
-        console.log('Combo 1 activated');
-        player.tint = 0xFF0000;
-    }
-
-    const function2 = function() {
-        console.log('Combo 2 activated');
-        player.tint = 0x00FF00;
-    }
-
-    const function3 = function() {
-        console.log('Combo 3 activated');
-        player.tint = 0x0000FF;
+    for (var controllerKey in controller.keymap) {
+        keyCodes = controller.keymap[controllerKey];
+        for (var keyCode in keyCodes) {
+            keyCode = keyCodes[keyCode];
+            var key = game.input.keyboard.addKey(keyCode);
+            key.onDown.add(this.receiveKey, this, 0, controllerKey)
+        } 
     }
 }

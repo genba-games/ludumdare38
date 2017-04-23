@@ -29,7 +29,7 @@ playState.prototype = {
         powerup = game.add.group();
 
         playerSprite = game.add.sprite(32, 32, 'player');
-        player = PlayerFactory(players, 50, 50, playerSprite, Controller());
+        player = PlayerFactory(players, 50, 50, playerSprite);
 
         game.physics.p2.enable(player);
 

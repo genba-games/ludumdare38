@@ -1,7 +1,7 @@
 // The play state contains the game
 var playState = function () { };
 
-var globalGravity = 500
+var globalGravity = 750
 
 playState.prototype =
     {
@@ -14,7 +14,7 @@ playState.prototype =
             game.load.image('box', 'src/graphics/tile.png')
         },
         create: function () {
-            game.physics.startSystem(Phaser.Physics.P2JS);
+            game.physics.startSystem(Phaser.Physics.ARCADE);
             map = game.add.tilemap('level 1');
 
             map.addTilesetImage('tile', 'box');
@@ -24,12 +24,9 @@ playState.prototype =
             
             // game.add.tileSprite(0, 0, 800, 480, 'background')
             map.setCollisionBetween(1,12);
-            game.physics.p2.convertTilemap(map, layer);
 
 
-            game.physics.p2.gravity.y = globalGravity;
-            game.physics.p2.world.defaultContactMaterial.friction = 0.3;
-            game.physics.p2.world.setGlobalStiffness(1e5);
+            game.physics.arcade.gravity.y = globalGravity;
 
             //  Music
             music = game.add.audio('main_audio');
@@ -45,28 +42,8 @@ playState.prototype =
 
             player = PlayerFactory(players, 50, 50, 'player');
 
-            game.physics.p2.enable(player);
+            
 
-            player.body.fixedRotation = true;
-            player.body.damping = 0.5;
-
-            var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', player.body);
-            var worldMaterial = game.physics.p2.createMaterial('worldMaterial');
-            var boxMaterial = game.physics.p2.createMaterial('worldMaterial');
-
-            game.physics.p2.setWorldMaterial(worldMaterial, true, true, true, true);
-
-            // for debug only! creates boxes to test the p2 engine.
-            for (var i = 1; i < +5; i++) {
-                var box = game.add.sprite(300, 645 - (95 * i), 'box');
-                game.physics.p2.enable(box);
-                box.body.mass = Math.floor((Math.random()*15));
-                // box.body.static = true;
-                box.body.setMaterial(boxMaterial);
-            }
-
-            var groundPlayerCM = game.physics.p2.createContactMaterial(spriteMaterial, worldMaterial, { friction: 0.0 });
-            var groundBoxesCM = game.physics.p2.createContactMaterial(worldMaterial, boxMaterial, { friction: 0.6 });
         },
         bulletCollitionCallback: function (player, bullet) {
             callback = function () {
@@ -84,6 +61,7 @@ playState.prototype =
             };
         },
         update: function () {
+            game.physics.arcade.collide(players,layer)
         },
     };
 

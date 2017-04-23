@@ -4,40 +4,8 @@
 powerUp = [
     {
         time: 5,
-        add: {
-            'body.maxVelocity': 600,
-            'powerUpSpeed': 2400,
-        },
-        tint: 0xffff00,
-        sprite:'PUspeed'
-    },
-    {
-        time: 5,
-        add: {
-            'acceleration':-600,
-            'body.drag.x': 5000000000000,
-            'body.drag.y': 5000000000000,
-        },
-        tint: 0x0000ff,
-        sprite:'PUslow'
-    },
-    {
-        time: 5,
-        add: {
-            'weapon.fireRate': -750,
-        },
-        tint: 0xff0000,
-        sprite:'PUangeFry'
-    },
-    {
-        time: 5,
-        scale: 5,
-        sprite:'PUbig'
-    },
-    {
-        time: 5,
         scale: 0.3,
-        sprite:'PUsmall'
+        sprite:'box'
     },
 ]
 powerUpFactory = function (group) {

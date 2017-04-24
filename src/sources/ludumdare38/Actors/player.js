@@ -23,33 +23,42 @@ PlayerFactory = function (group, x, y, sprite, controllerKeymap) {
 	player.controller = new Controller(player, controllerKeymap);
 	player.jumping = false
 	player.cooldown = false;
+
 	player.invulnerable = false;
-	player.health = 2500;
 	player.facing = 'idle'
-	
+
 	// animations
 	idle = player.animations.add('idle')
-	player.animations.add('idle',[0,3,5,6,7],2,true)
+	player.animations.add('idle', [0, 3, 5, 6, 7], 2, true)
 
-	left= player.animations.add('left');
-    player.animations.add('left',[1],1,true)
+	left = player.animations.add('left');
+	player.animations.add('left', [1], 1, true)
 
-	right= player.animations.add('right');
-    player.animations.add('right',[2] ,1,true)
+	right = player.animations.add('right');
+	player.animations.add('right', [2], 1, true)
 
-	action= player.animations.add('action');
-    player.animations.add('action',[3,4,0],2,false)
+	action = player.animations.add('action');
+	player.animations.add('action', [3, 4, 0], 2, false)
 
 	player.jumpTimer = 0
-	
+
 	player.jumpFactor = 1
 	player.jumpBase = -260
-	
+
 	player.speedFactor = 1
 	player.speedBase = 300
 
 
 	player.update = function () {
+		// collision
+		player = this
+		game.physics.arcade.collide(this, layer)
+		game.physics.arcade.collide(this, enemies, function (player) {
+			// the "death animation factory" should go here.
+			player.kill();
+		})
+
+
 		/// Input
 		if (this.controller.keyPressed(controllerKeys.LEFT)) {
 			this.body.velocity.x = this.speedBase * this.speedFactor * -1;
@@ -85,7 +94,7 @@ PlayerFactory = function (group, x, y, sprite, controllerKeymap) {
 			}
 		}
 
-		if(this.controller.keyPressed(controllerKeys.ACTION)){
+		if (this.controller.keyPressed(controllerKeys.ACTION)) {
 			player.animations.play('action');
 		}
 

@@ -41,6 +41,9 @@ playState.prototype =
             mute_key = game.input.keyboard.addKey(Phaser.Keyboard.M);
             mute_key.onDown.add(mute, this);
 
+            restart_key = game.input.keyboard.addKey(Phaser.Keyboard.R);
+            restart_key.onDown.add(restart,this);
+
             // Group definitions
             players = game.add.group();
             enemies = game.add.group();
@@ -67,9 +70,7 @@ playState.prototype =
             };
         },
         update: function () {
-            game.physics.arcade.collide(players,layer)
-            game.physics.arcade.collide(enemies,layer)
-            game.physics.arcade.collide(players,enemies)
+            
             
         },
     };
@@ -81,4 +82,7 @@ function mute() {
     else {
         music.resume();
     }
+}
+function restart(){
+    game.state.start('play');
 }
